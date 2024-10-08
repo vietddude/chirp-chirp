@@ -3,13 +3,13 @@ spring:
     name: "chirp-chirp"
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/chirp-chirp
-    username: viet
-    password: 123
+    url: jdbc:${POSTGRES_URI}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   redis:
-    uri: redis://localhost:6379
+    uri: ${REDIS_URI}
 
   jpa:
     hibernate:
@@ -27,11 +27,14 @@ spring:
 
   jwt:
     issuer: "chirp-chirp"
-    secret-key: "secret"
-    access-token-expiration-minute: 60
-    refresh-token-expiration-minute: 1440
+    secret-key: ${JWT_SECRET}
+    access-token-expiration-minute: ${JWT_ACCESS_EXPIRE}
+    refresh-token-expiration-minute: ${JWT_REFRESH_EXPIRE}
 
 logging:
   level:
     root: info
     viet.io.chirpchirp: debug
+
+server:
+    port: ${PORT}
