@@ -1,0 +1,27 @@
+services:
+  app:
+    container_name: chirp-chirp
+    build: .
+    ports:
+      - "${PORT}:5005"
+    env_file:
+      - .env
+    environment:
+      - "SPRING_DATASOURCE_URL=${POSTGRES_URI}"
+      - "SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}"
+      - "SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}"
+      - "REDIS_URL=${REDIS_URI}"
+      - "SPRING_FLYWAY_BASELINE-ON-MIGRATE=true"
+      - "SPRING_FLYWAY_BASELINE-VERSION=0"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:${PORT}/health || exit 1"]
+      interval: 300s
+      timeout: 10s
+      retries: 1
+      start_period: 30s
+    networks:
+      - base
+
+networks:
+  base:
+    external: true
